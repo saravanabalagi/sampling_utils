@@ -1,4 +1,6 @@
 import numpy as np
+from typing import Union
+from sampling_utils.helper_functions import _remove_diagonal
 
 
 def get_max_samples(population: list, dont_pick_closest: int) -> int:
@@ -33,7 +35,9 @@ def get_min_samples(population: list, dont_pick_closest: int) -> int:
     return min_count
 
 
-def sample_from_list(population: list, number_of_samples: int = None, dont_pick_closest: int = 0) -> list:
+def sample_from_list(population: Union[list, np.ndarray],
+                     number_of_samples: int = None,
+                     dont_pick_closest: int = 0) -> list:
     chosen = []
     remaining = population
 
@@ -121,3 +125,15 @@ def batch_rand_num_generator(choices: list, batch_size: int, dont_pick_closest: 
                     yield el
             else:
                 yield el
+
+
+def are_valid_samples(population: Union[list, np.ndarray], dont_pick_closest: int):
+    if len(population) <= 1:
+        return True
+
+    population = np.array(population)
+    distances = np.abs(population[None, :] - population[:, None])
+    distances = _remove_diagonal(distances)
+    min_distances = np.min(distances, axis=-1)
+    valid_mask = min_distances > dont_pick_closest
+    return all(valid_mask)
