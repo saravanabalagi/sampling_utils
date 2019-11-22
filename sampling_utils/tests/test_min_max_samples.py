@@ -4,7 +4,7 @@ import pytest
 
 
 population_list = [
-    *[(np.arange(i)) for i in range(12)],
+    *[np.arange(i) for i in range(12)],
     [4, 5, 6, 8],
     [4, 5, 6, 10, 11],
     [4, 5, 6, 7, 8, 11, 13],
