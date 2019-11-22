@@ -3,7 +3,10 @@ from typing import Union
 from sampling_utils.helper_functions import _remove_diagonal
 
 
-def get_max_samples(population: list, dont_pick_closest: int) -> int:
+def get_max_samples(population: Union[list, np.ndarray], dont_pick_closest: int) -> int:
+    # sort first
+    population = sorted(population)
+
     # if there's nothing to choose
     if len(population) == 0:
         return 0
@@ -19,7 +22,10 @@ def get_max_samples(population: list, dont_pick_closest: int) -> int:
     return max_count
 
 
-def get_min_samples(population: list, dont_pick_closest: int) -> int:
+def get_min_samples(population: Union[list, np.ndarray], dont_pick_closest: int) -> int:
+    # sort first
+    population = sorted(population)
+
     # if there's nothing to choose
     if len(population) == 0:
         return 0
