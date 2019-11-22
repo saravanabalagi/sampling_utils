@@ -31,5 +31,6 @@ setup(
     ],
     packages=["sampling_utils"],
     include_package_data=True,
-    install_requires=[]
+    install_requires=['numpy'],
+    tests_requires=['pytest']
 )
