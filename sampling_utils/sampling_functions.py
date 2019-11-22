@@ -1,9 +1,10 @@
 import numpy as np
-from typing import Union
+from typing import Union, Iterator
 from sampling_utils.helper_functions import _remove_diagonal
 
 
 def get_max_samples(population: Union[list, np.ndarray], dont_pick_closest: int) -> int:
+
     # sort first
     population = sorted(population)
 
@@ -23,6 +24,7 @@ def get_max_samples(population: Union[list, np.ndarray], dont_pick_closest: int)
 
 
 def get_min_samples(population: Union[list, np.ndarray], dont_pick_closest: int) -> int:
+
     # sort first
     population = sorted(population)
 
@@ -89,13 +91,14 @@ def sample_from_list(population: Union[list, np.ndarray],
     return chosen
 
 
-def batch_rand_num_generator(choices: list, batch_size: int, dont_pick_closest: int, repeat_yield: int = 0):
+def batch_rand_generator(population: Union[list, np.ndarray], batch_size: int,
+                         dont_pick_closest: int, repeat_yield: int = 0) -> Iterator[int]:
 
     # sort the list first
-    choices = sorted(choices)
+    population = sorted(population)
 
     # generate 0 to labels as choice to pick from
-    choices_with_replacement = choices
+    choices_with_replacement = population
     served = 0
 
     # Keep running until conditions are met
