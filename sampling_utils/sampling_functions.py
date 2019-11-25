@@ -44,18 +44,18 @@ def get_min_samples(population: Union[list, np.ndarray], dont_pick_closest: int)
 
 
 def sample_from_list(population: Union[list, np.ndarray],
-                     number_of_samples: int = None,
+                     num_samples: int = None,
                      dont_pick_closest: int = 0) -> list:
     chosen = []
     remaining = population
 
     # validate if picking count from len(choices) is possible
     max_picks_possible = get_max_samples(population, dont_pick_closest)
-    if number_of_samples is not None and number_of_samples > max_picks_possible:
-        raise ValueError(f"It is impossible to pick {number_of_samples} elements from {len(population)} "
+    if num_samples is not None and num_samples > max_picks_possible:
+        raise ValueError(f"It is impossible to pick {num_samples} elements from {len(population)} "
                          f"choices with don't pick closest {dont_pick_closest}.\n"
                          f"Choices: {population}\n"
-                         f"Count required: {number_of_samples}\n"
+                         f"Count required: {num_samples}\n"
                          f"Maximum samples possible: {max_picks_possible}")
 
     while True:
@@ -67,7 +67,7 @@ def sample_from_list(population: Union[list, np.ndarray],
             # and if there's nothing to choose from
             # and if chosen is len than count
             # restart the whole process
-            if number_of_samples is not None and len(chosen) < number_of_samples:
+            if num_samples is not None and len(chosen) < num_samples:
                 chosen = []
                 remaining = population
                 continue
@@ -85,7 +85,7 @@ def sample_from_list(population: Union[list, np.ndarray],
         remaining = np.setdiff1d(remaining, choice_expanded)
 
         # while loop continue until we get count items sampled
-        if number_of_samples is not None and len(chosen) == number_of_samples:
+        if num_samples is not None and len(chosen) == num_samples:
             break
 
     return chosen
@@ -118,7 +118,7 @@ def batch_rand_generator(population: Union[list, np.ndarray], batch_size: int,
 
         # Choose for current batch and remove choices and their neighbours from next pool to select from
         chosen_for_batch = sample_from_list(choices_with_replacement,
-                                            number_of_samples=batch_size,
+                                            num_samples=batch_size,
                                             dont_pick_closest=dont_pick_closest)
         choices_with_replacement = np.setdiff1d(choices_with_replacement, chosen_for_batch)
 
