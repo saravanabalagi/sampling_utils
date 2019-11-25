@@ -1,5 +1,9 @@
 # Sampling Utils
 
+![Pypi Version](https://img.shields.io/pypi/v/sampling_utils)
+![Pypi Licence](https://img.shields.io/pypi/l/sampling_utils)
+![Pypi Wheel](https://img.shields.io/pypi/wheel/sampling_utils)
+
 Python tools to sample randomly with dont pick closest `n` elements constraints. 
 Also contains a batch generator for the same to sample with replacement and with repeats if necessary.
 
@@ -37,7 +41,9 @@ for _ in range(5):
 # [2, 5, 8, 12]
 ```
 
-If 12 is sampled, sampling 10 and 14 is not allowed. 
+If 12 is sampled, sampling 10 and 14 are not allowed since `dont_pick_closest` is 2. 
+In other words, if `n` is sampled, then sampling anything from `[n-dont_pick_closest, ... n-1, n , n+1, ... n+dont_pick_closest]`
+is not allowed (if present in the list).
 
 <sup>#</sup>Will be called as **dont_pick_closest rule** hereafter. 
 
