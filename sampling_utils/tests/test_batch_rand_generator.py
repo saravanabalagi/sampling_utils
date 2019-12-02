@@ -33,3 +33,27 @@ def test_batch_rand_generator(population, batch_size, dont_pick_closest):
     # check if each batch is valid
     for batch in samples_batch:
         assert are_valid_samples(batch, dont_pick_closest)
+
+
+population_list = []
+batch_size_list = []
+dont_pick_closest_list = []
+expected_samples_list = []
+
+for i in range(20, 50):
+    for j in range(1, 5):
+        known_population = np.arange(i)
+        np.random.shuffle(known_population)
+        population_list.append(known_population)
+        batch_size_list.append(j)
+        dont_pick_closest_list.append(0)
+        expected_samples_list.append(i - (i % j))
+
+
+@pytest.mark.parametrize("population, batch_size, dont_pick_closest, expected_samples",
+                         zip(population_list, batch_size_list, dont_pick_closest_list, expected_samples_list))
+def test_batch_rand_generator_misses_elements(population, batch_size, dont_pick_closest, expected_samples):
+    test_batch_rand_generator(population, batch_size, dont_pick_closest)
+    gen = batch_rand_generator(population, batch_size, dont_pick_closest)
+    gen_len = sum(1 for _ in gen)
+    assert gen_len == expected_samples
