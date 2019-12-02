@@ -12,7 +12,8 @@ def _remove_diagonal(matrix_2d: np.ndarray) -> np.ndarray:
 
 
 def get_batch_generator_elements(generator: Union[Generator, Iterator],
-                                 batch_size: int, num_batches: int = None) -> List[list]:
+                                 batch_size: int, num_batches: int = None,
+                                 drop_remainder: bool = False) -> List[list]:
     batch_elements = []
     batch_elements_list = []
     for index, num in enumerate(generator):
@@ -24,4 +25,7 @@ def get_batch_generator_elements(generator: Union[Generator, Iterator],
             if num_batches is not None and len(batch_elements_list) >= num_batches:
                 break
         batch_elements.append(num)
+    if len(batch_elements) is not 0:
+        if not drop_remainder or len(batch_elements) == batch_size:
+            batch_elements_list.append(batch_elements)
     return batch_elements_list
